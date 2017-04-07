@@ -30,15 +30,12 @@ public class MapTest {
 				}*/
 				for (int i = 10; i < 20; i++) {
 					map.put(i, i+"");
-					System.out.println("_______:   " +map.get(i));
+					System.out.println("=======:   " +map.get(i));
 				}
 			};
 		}.start();
 		for(int i=0;i<map.size();i++){
 			System.out.println(map.get(i));
 		}
-	}
-	
-	
-	
+	}	
 }
