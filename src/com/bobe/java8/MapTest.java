@@ -2,8 +2,6 @@ package com.bobe.java8;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.swing.text.StyledEditorKit.ForegroundAction;
-
 public class MapTest {
 	private static final java.util.Map<Integer, String> map=new ConcurrentHashMap<Integer, String>();
 	
