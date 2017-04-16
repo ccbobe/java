@@ -6,12 +6,12 @@ public class TestString {
 		// TODO Auto-generated method stub
 		int i=0;
 		
-		while(i){
+	/*	while(i){
 			if(i==4){
 				break;
 			}
 			++i;
-		}
+		}*/
 	}
-
+//编译不会通过
 }
