@@ -35,5 +35,16 @@ public class MapTest {
 		for(int i=0;i<map.size();i++){
 			System.out.println(map.get(i));
 		}
+		
+		final String a="a"; 
+		
+		new Thread(){
+			public void run() {
+			
+				System.out.println(a+"aaaaaassssss");
+			};
+		}.start();
+		
+		
 	}	
 }
