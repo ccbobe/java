@@ -32,15 +32,29 @@ public class Ping {
 	
 	@Test
 	public void testCal() throws IOException{
-		Process exec = Runtime.getRuntime().exec("cmd /c start C:\\WINDOWS\\system32\\calc");
+		Process exec = Runtime.getRuntime().exec("cmd /c start calc");
 		
 		
 	}
 	
 	@Test
 	public void testPrint() throws Exception{
-		Runtime.getRuntime().exec("D:\\Program Files (x86)\\Notepad++\\notePad++");
+		Runtime
+				.getRuntime()
+				.exec("D:\\Program Files (x86)\\Notepad++\\notePad++");
 		
 	}
+	
+	@Test
+	public void testPDFPrint(){
+		
+		try {
+			Runtime.getRuntime().exec("D:\\Program Files\\KuGou\\KuGou");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 }
