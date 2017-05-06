@@ -33,8 +33,6 @@ public class Ping {
 	@Test
 	public void testCal() throws IOException{
 		Process exec = Runtime.getRuntime().exec("cmd /c start calc");
-		
-		
 	}
 	
 	@Test
