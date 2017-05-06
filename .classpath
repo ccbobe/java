@@ -5,5 +5,12 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/hessian-4.0.51.jar"/>
 	<classpathentry kind="lib" path="lib/HessianService.jar"/>
+	<classpathentry kind="lib" path="lib/c3p0-0.9.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.7.7.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.7.7.jar"/>
+	<classpathentry kind="lib" path="lib/quartz-2.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/quartz-jobs-2.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/quartz-all-2.1.7.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
