@@ -12,6 +12,7 @@ import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.junit.Test;
@@ -83,9 +84,14 @@ public class JfreeChartPic {
 		BufferedImage image = chart.createBufferedImage(500, 500);
 		
 		File fos_jpg = new File("E://bloodSugarChart.jpg ");
+		//获取图片显示对象
+		PiePlot plot =new PiePlot();
+		plot.setCircular(true);
+		
 		
 		try {
 			ChartUtilities.saveChartAsJPEG(fos_jpg, chart, 500, 500);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
