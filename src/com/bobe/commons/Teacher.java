@@ -1,6 +1,6 @@
+
 package com.bobe.commons;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Teacher {
@@ -108,15 +108,12 @@ public class Teacher {
 		return true;
 	}
     
-  
-    
     @Override
-	public String toString() {
-		return "Teacher [id=" + id + ", name=" + name + ", age=" + age
-				+ ", sex=" + sex + ", addr=" + addr + ", major=" + major
-				+ ", qq=" + Arrays.toString(qq) + ", baby=" + baby + "]";
-	}
-	public String sayHello(String say){
+    public String toString() {
+    	return super.toString()+age+" :::"+name;
+    }
+    
+    public String sayHello(String say){
     	return say;
     }
 }
