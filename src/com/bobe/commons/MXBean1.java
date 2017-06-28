@@ -217,6 +217,41 @@ public class MXBean1 {
 	         connector.close();
 	       }
 	
+	@Test
+	public void testJMXconnector() throws Throwable{
+		MBeanServerConnection connection = null;
+    	JMXConnector connector = null;
+		Hashtable h = new Hashtable();
+        h.put(Context.SECURITY_PRINCIPAL, "admin");
+        h.put(Context.SECURITY_CREDENTIALS, "admin95599");
+        h.put(JMXConnectorFactory.PROTOCOL_PROVIDER_PACKAGES,
+           "weblogic.management.remote");
+        String protocol = "t3";
+        Integer portInteger = Integer.valueOf("7001");
+        int port = portInteger.intValue();
+        String jndiroot = "/jndi/";
+        String mserver = "weblogic.management.mbeanservers.runtime";
+        JMXServiceURL serviceURL = new JMXServiceURL(protocol, "127.0.0.1",
+	             port, jndiroot + mserver);
+        connector = JMXConnectorFactory.connect(serviceURL,h);
+        connection = connector.getMBeanServerConnection();
+        ObjectName on = new ObjectName("com.bea:Name=RuntimeService,Type=weblogic.management.mbeanservers.runtime.RuntimeServiceMBean");
+        ObjectName on1 = (ObjectName) connection.getAttribute(on, "ServerRuntime");
+        
+        ObjectName on2 = (ObjectName) connection.getAttribute(on1, "JVMRuntime");
+         System.out.print(on2);  
+         String str2 =(String) connection.getAttribute(on2, "OSName");
+         System.out.println(str2);
+         
+         long str3 =(long) connection.getAttribute(on2, "HeapSizeMax");
+         System.out.println(str3);
+         
+         String str4 =(String) connection.getAttribute(on2, "ThreadStackDump");
+         System.out.println(str4);
+         connector.close();
+        
+	}
+	
 }
     
     
