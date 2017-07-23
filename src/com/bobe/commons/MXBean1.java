@@ -32,12 +32,14 @@ import javax.management.ReflectionException;
 import javax.management.modelmbean.ModelMBeanAttributeInfo;
 import javax.management.modelmbean.ModelMBeanInfo;
 import javax.management.modelmbean.RequiredModelMBean;
+import javax.management.openmbean.CompositeData;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.StyledEditorKit.BoldAction;
 
 import org.junit.Test;
 
@@ -47,10 +49,13 @@ import com.sun.corba.se.spi.activation.Server;
 import sun.management.ManagementFactoryHelper;
 import sun.management.snmp.jvmmib.JvmRuntimeMBean;
 import sun.management.snmp.util.JvmContextFactory;
+import weblogic.health.HealthState;
 import weblogic.j2ee.descriptor.wl.ConnectionPoolParamsBeanDConfigBeanInfo;
+import weblogic.jdbc.rmi.internal.Connection;
 import weblogic.management.MBeanHome;
 import weblogic.management.mbeanservers.domainruntime.DomainRuntimeServiceMBean;
 import weblogic.management.mbeanservers.domainruntime.internal.DomainRuntimeServiceMBeanImpl;
+import weblogic.management.mbeanservers.internal.MBeanTypeServiceImplBeanInfo;
 import weblogic.management.runtime.AppRuntimeStateRuntimeMBean;
 import weblogic.management.runtime.DomainRuntimeMBean;
 import weblogic.t3.srvr.ServerRuntime;
@@ -245,12 +250,180 @@ public class MXBean1 {
          
          long str3 =(long) connection.getAttribute(on2, "HeapSizeMax");
          System.out.println(str3);
-         
+       /*  
          String str4 =(String) connection.getAttribute(on2, "ThreadStackDump");
          System.out.println(str4);
+         connector.close();*/
+         
+         
          connector.close();
+         
         
 	}
+	
+	
+	@Test
+	public void testRuntime() throws IOException, MalformedObjectNameException, Throwable, Throwable, MBeanException, ReflectionException{
+		JMXConnector connector = null;
+		 String protocol = "t3";
+         Integer portInteger = Integer.valueOf("7001");
+         int port = portInteger.intValue();
+         String jndiroot = "/jndi/";
+         String mserver = "weblogic.management.mbeanservers.runtime";
+
+         JMXServiceURL serviceURL = new JMXServiceURL(protocol, "127.0.0.1", port,
+         jndiroot + mserver);
+         Hashtable h = new Hashtable();
+         h.put(Context.SECURITY_PRINCIPAL, "admin");
+         h.put(Context.SECURITY_CREDENTIALS, "admin95599");
+         h.put(JMXConnectorFactory.PROTOCOL_PROVIDER_PACKAGES,
+            "weblogic.management.remote");
+         connector = JMXConnectorFactory.connect(serviceURL,h);
+         
+         MBeanServerConnection con = connector.getMBeanServerConnection();
+         
+         ObjectName name = new ObjectName("com.bea:Name=RuntimeService,Type=weblogic.management.mbeanservers.runtime.RuntimeServiceMBean");
+         
+         String str =  (String)con.getAttribute(name, "Name");
+         System.out.println(str);
+         
+      ObjectName[] on = (ObjectName[]) con.getAttribute(name, "Services");
+      for (int i = 0; i < on.length; i++) {
+		System.out.println(on[i]);
+	}
+         connector.close();
+	}
+	
+	
+	
+	
+	@Test
+	public void testRuntime2() throws IOException, MalformedObjectNameException, Throwable, Throwable, MBeanException, ReflectionException{
+		JMXConnector connector = null;
+		 String protocol = "t3";
+         Integer portInteger = Integer.valueOf("7001");
+         int port = portInteger.intValue();
+         String jndiroot = "/jndi/";
+         String mserver = "weblogic.management.mbeanservers.runtime";
+
+         JMXServiceURL serviceURL = new JMXServiceURL(protocol, "127.0.0.1", port,
+         jndiroot + mserver);
+         Hashtable h = new Hashtable();
+         h.put(Context.SECURITY_PRINCIPAL, "admin");
+         h.put(Context.SECURITY_CREDENTIALS, "admin95599");
+         h.put(JMXConnectorFactory.PROTOCOL_PROVIDER_PACKAGES,
+            "weblogic.management.remote");
+         connector = JMXConnectorFactory.connect(serviceURL,h);
+         
+         MBeanServerConnection con = connector.getMBeanServerConnection();
+        // ObjectName  on = new ObjectName("");
+         
+         
+         connector.close();
+	}
+	
+	@Test
+	public  void initConnection3() throws IOException,
+	          MalformedURLException, AttributeNotFoundException, InstanceNotFoundException, MBeanException, ReflectionException, MalformedObjectNameException {
+		MBeanServerConnection connection = null;
+    	JMXConnector connector = null;
+    	ObjectName service = new ObjectName("com.bea:Name=RuntimeService,Type=weblogic.management.mbeanservers.runtime.RuntimeServiceMBean");//类型及其包名加类名
+	          String protocol = "t3";
+	          Integer portInteger = Integer.valueOf("7001");
+	          int port = portInteger.intValue();
+	          String jndiroot = "/jndi/";
+	          String mserver = "weblogic.management.mbeanservers.runtime";//访问到包名
+	          JMXServiceURL serviceURL = new JMXServiceURL(protocol, "127.0.0.1",
+	          port, jndiroot + mserver);
+	          Hashtable h = new Hashtable();
+	          h.put(Context.SECURITY_PRINCIPAL, "admin");
+	          h.put(Context.SECURITY_CREDENTIALS, "admin95599");
+	          h.put(JMXConnectorFactory.PROTOCOL_PROVIDER_PACKAGES,
+	             "weblogic.management.remote");
+	          connector = JMXConnectorFactory.connect(serviceURL, h);
+	          connection = connector.getMBeanServerConnection();
+              ObjectName on = (ObjectName)connection.getAttribute(service, "ServerRuntime");	        
+	          
+              String str= (String) connection.getAttribute(on, "Name");//获取服务名称
+              
+              System.out.println(str);
+             
+              connector.close();
+	       }
+	
+	@Test
+	public  void initConnection5() throws IOException,
+	          MalformedURLException, AttributeNotFoundException, InstanceNotFoundException, MBeanException, ReflectionException, MalformedObjectNameException {
+		MBeanServerConnection connection = null;
+    	JMXConnector connector = null;
+    	ObjectName service = 
+    new ObjectName("com.bea:Name=RuntimeService,Type=weblogic.management.mbeanservers.runtime.RuntimeServiceMBean");//类型及其包名加类名
+	          String protocol = "t3";
+	          Integer portInteger = Integer.valueOf("7001");
+	          int port = portInteger.intValue();
+	          String jndiroot = "/jndi/";
+	          String mserver = "weblogic.management.mbeanservers.runtime";//访问到包名
+	          JMXServiceURL serviceURL = new JMXServiceURL(protocol, "127.0.0.1",
+	          port, jndiroot + mserver);
+	          Hashtable h = new Hashtable();
+	          h.put(Context.SECURITY_PRINCIPAL, "admin");
+	          h.put(Context.SECURITY_CREDENTIALS, "admin95599");
+	          h.put(JMXConnectorFactory.PROTOCOL_PROVIDER_PACKAGES,
+	             "weblogic.management.remote");
+	          connector = JMXConnectorFactory.connect(serviceURL, h);
+	          connection = connector.getMBeanServerConnection();
+              
+	          ObjectName obn = new ObjectName( "com.bea:Name=myserver,Type=ServerRuntime"); //服务器运行状态
+	          String obn1 = (String) connection.getAttribute(obn, "State");
+	          
+	          System.out.println(obn1);
+	          
+	          CompositeData cd    =(CompositeData) connection.getAttribute(obn, "OverallHealthStateJMX");
+	          System.out.println(cd.get("HealthState"));//服务器运行情况
+	          System.out.println(cd.get("ReasonCode"));
+	          connector.close();
+	       }
+	
+	
+	@Test
+	public  void initConnection4() throws IOException,
+	          MalformedURLException, AttributeNotFoundException, InstanceNotFoundException, MBeanException, ReflectionException, MalformedObjectNameException {
+		MBeanServerConnection connection = null;
+    	JMXConnector connector = null;
+    	ObjectName service = 
+    new ObjectName("com.bea:Name=RuntimeService,Type=weblogic.management.mbeanservers.runtime.RuntimeServiceMBean");//类型及其包名加类名
+	          String protocol = "t3";
+	          Integer portInteger = Integer.valueOf("7001");
+	          int port = portInteger.intValue();
+	          String jndiroot = "/jndi/";
+	          String mserver = "weblogic.management.mbeanservers.runtime";//访问到包名
+	          JMXServiceURL serviceURL = new JMXServiceURL(protocol, "127.0.0.1",
+	          port, jndiroot + mserver);
+	          Hashtable h = new Hashtable();
+	          h.put(Context.SECURITY_PRINCIPAL, "admin");
+	          h.put(Context.SECURITY_CREDENTIALS, "admin95599");
+	          h.put(JMXConnectorFactory.PROTOCOL_PROVIDER_PACKAGES,
+	             "weblogic.management.remote");
+	          connector = JMXConnectorFactory.connect(serviceURL, h);
+	          connection = connector.getMBeanServerConnection();
+              
+	          ObjectName obn = new ObjectName( "com.bea:ServerRuntime=myserver,Name=myserver,Type=JVMRuntime"); //服务器运行状态
+	         
+	          
+	          long name = (long) connection.getAttribute(obn, "HeapSizeMax");//堆内存最大值
+	          System.out.println(obn.getCanonicalName());//服务器运行情况
+	          System.out.println(name);
+	          
+	          
+	          ObjectName obn2 = new ObjectName( "com.bea:ServerRuntime=myserver,Name=myserver,Type=JDBCServiceRuntime"); //服务器运行状态
+	          HealthState str2 = (HealthState) connection.getAttribute(obn2, "HealthState");   
+	          System.out.println(str2.getState());
+	        
+	          connector.close();
+	       }
+	
+	
+	
 	
 }
     

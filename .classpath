@@ -37,5 +37,7 @@
 	<classpathentry kind="lib" path="lib/wljmsclient.jar"/>
 	<classpathentry kind="lib" path="lib/wljmxclient.jar"/>
 	<classpathentry kind="lib" path="lib/weblogic-classes.jar"/>
+	<classpathentry kind="lib" path="lib/wlfullclient.jar"/>
+	<classpathentry kind="lib" path="lib/jsch-0.1.54.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

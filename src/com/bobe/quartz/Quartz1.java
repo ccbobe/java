@@ -36,6 +36,11 @@ public class Quartz1 {
 		JobDetail job = JobBuilder.newJob(HelloJob.class)
 				.withIdentity("job1", "group1")
 				.build();
+		
+		JobDetail job2 = JobBuilder.newJob(HelloJob2.class)
+				.withIdentity("job2", "group1")
+				.build();
+
 
 		// 创建时间
 		Date date = DateBuilder.evenMinuteDate(new Date());
@@ -45,9 +50,14 @@ public class Quartz1 {
 				.startAt(date)
 				.build();
 		
+		Trigger trigger1 = TriggerBuilder.newTrigger()
+				.withIdentity("trigger2", "group1")
+				.startAt(date)
+				.build();
+		
 		
 		scheduler.scheduleJob(job, trigger);
-		
+		scheduler.scheduleJob(job2,trigger1);
 		// 启动调度器
 			scheduler.start();
 			logger.info("start::::开始");
