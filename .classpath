@@ -39,5 +39,6 @@
 	<classpathentry kind="lib" path="lib/weblogic-classes.jar"/>
 	<classpathentry kind="lib" path="lib/wlfullclient.jar"/>
 	<classpathentry kind="lib" path="lib/jsch-0.1.54.jar"/>
+	<classpathentry kind="lib" path="lib/netty-all-4.1.14.Final.jar" sourcepath="C:/Users/bobe/Downloads/netty-4.1.14.Final/netty-4.1.14.Final/jar/all-in-one/netty-all-4.1.14.Final-sources.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
