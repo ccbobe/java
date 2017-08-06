@@ -327,7 +327,8 @@ public class MXBean1 {
 	          MalformedURLException, AttributeNotFoundException, InstanceNotFoundException, MBeanException, ReflectionException, MalformedObjectNameException {
 		MBeanServerConnection connection = null;
     	JMXConnector connector = null;
-    	ObjectName service = new ObjectName("com.bea:Name=RuntimeService,Type=weblogic.management.mbeanservers.runtime.RuntimeServiceMBean");//类型及其包名加类名
+    	ObjectName service = new ObjectName("com.bea:Name=RuntimeService,"
+    			+ "Type=weblogic.management.mbeanservers.runtime.RuntimeServiceMBean");//类型及其包名加类名
 	          String protocol = "t3";
 	          Integer portInteger = Integer.valueOf("7001");
 	          int port = portInteger.intValue();
@@ -363,7 +364,7 @@ public class MXBean1 {
 	          int port = portInteger.intValue();
 	          String jndiroot = "/jndi/";
 	          String mserver = "weblogic.management.mbeanservers.runtime";//访问到包名
-	          JMXServiceURL serviceURL = new JMXServiceURL(protocol, "127.0.0.1",
+	          JMXServiceURL serviceURL = new JMXServiceURL(protocol, "192.168.241.1",
 	          port, jndiroot + mserver);
 	          Hashtable h = new Hashtable();
 	          h.put(Context.SECURITY_PRINCIPAL, "admin");
