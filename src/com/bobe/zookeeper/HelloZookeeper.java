@@ -2,11 +2,13 @@ package com.bobe.zookeeper;
 
 import java.io.IOException;
 import java.nio.channels.SeekableByteChannel;
+import java.security.acl.Acl;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooDefs.Ids;
@@ -18,11 +20,13 @@ import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 import org.junit.Test;
 
+import com.sun.scenario.effect.Effect.AccelType;
+
 public class HelloZookeeper {
 	private static CountDownLatch connectedSemaphore = new CountDownLatch(1);  
 	//zookeeper api 使用
 	
-	private static final String HOST_URL= "192.168.241.128:2181";
+	private static final String HOST_URL= "192.168.1.100:2181";
 	
 	private static final int SESSION_TIME_OUT = 5000 ;
 	
@@ -76,7 +80,7 @@ public class HelloZookeeper {
 	
 	@Test
 	public void testDeleteZookeeperData() throws Throwable{
-		ZooKeeper zk = new ZooKeeper("192.168.241.128:2181", 5000, new Watcher() {
+		ZooKeeper zk = new ZooKeeper("192.168.1.111:2181", 5000, new Watcher() {
 			
 			@Override
 			public void process(WatchedEvent event) {
@@ -106,8 +110,54 @@ public class HelloZookeeper {
 		}); 
 		
 	}
-	
-	
-	
+	@Test
+	public void testZooKeeperAdmin() throws IOException{
+		//zookeeper 连接客户端信息
+		ZooKeeper zk = new ZooKeeper(HOST_URL, SESSION_TIME_OUT, new Watcher() {
+			
+			@Override
+			public void process(WatchedEvent event) {
+				System.out.println("连接信息"+event.getState());
+				if(KeeperState.SyncConnected ==event.getState()){
+					connectedSemaphore.countDown();
+				}
+			}
+		});
+		try {
+			Stat stat = zk.exists("/test", true);
+			
+			zk.create("/test/test1", "hello".getBytes(), Ids.OPEN_ACL_UNSAFE,CreateMode.EPHEMERAL_SEQUENTIAL);
+			System.out.println(stat.getNumChildren());
+			List<String> list = zk.getChildren("/test", null);
+			for (String ch : list) {
+				System.out.println(ch);
+			}
+			
+			zk.close();
+		} catch (KeeperException | InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void testZooKeeperConn() throws KeeperException, InterruptedException{
+		try {
+			ZooKeeper zk = new ZooKeeper(HOST_URL, SESSION_TIME_OUT, new Watcher() {
+				
+				@Override
+				public void process(WatchedEvent event) {
+					// TODO Auto-generated method stub
+					
+					if(event.getState()==KeeperState.SyncConnected){
+						connectedSemaphore.countDown();
+					}
+					System.out.println(event.getType());
+				}
+			});
+			
+			Stat stat = zk.exists("/test", true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
